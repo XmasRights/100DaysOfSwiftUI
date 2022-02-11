@@ -16,22 +16,6 @@ struct ContentView: View {
 
     let tipPercentages = [10, 15, 20, 25, 0]
 
-    var numberOfPeople: Double {
-        Double(peoplePickerSelection) + 2.0
-    }
-
-    var selectedTip: Double {
-        Double(tipPercentage)
-    }
-
-    var totalPerPerson: Double {
-        let tipValue = checkAmount / 100 * selectedTip
-        let grandTotal = checkAmount + tipValue
-        let amountPerPerson = grandTotal / numberOfPeople
-
-        return amountPerPerson
-    }
-
     var body: some View {
         NavigationView {
             Form {
@@ -39,9 +23,7 @@ struct ContentView: View {
                     TextField(
                         "Amount",
                         value: $checkAmount,
-                        format: .currency(
-                            code: Locale.current.currencyCode ?? "GBP"
-                        )
+                        format: currenyFormat
                     )
                         .keyboardType(.decimalPad)
                         .focused($amountIsFocused)
@@ -66,13 +48,22 @@ struct ContentView: View {
 
                 Section {
                     Text(
+                        grandTotal,
+                        format: currenyFormat
+                    )
+                } header: {
+                    Text("Total to Pay")
+                }
+
+                Section {
+                    Text(
                         totalPerPerson,
                         format: .currency(
                             code: Locale.current.currencyCode ?? "GBP"
                         )
                     )
                 } header: {
-                    Text("You Pay")
+                    Text("Amount Per Person")
                 }
             }
             .navigationTitle("WeSplit")
@@ -86,6 +77,37 @@ struct ContentView: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - Maths Helpers
+
+private extension ContentView {
+
+    var numberOfPeople: Double {
+        Double(peoplePickerSelection) + 2.0
+    }
+
+    var selectedTip: Double {
+        Double(tipPercentage)
+    }
+
+    var grandTotal: Double {
+        let tipValue = checkAmount / 100 * selectedTip
+        return checkAmount + tipValue
+    }
+
+    var totalPerPerson: Double {
+        return grandTotal / numberOfPeople
+    }
+}
+
+// MARK: - Formatting Helpers
+
+private extension ContentView {
+    var currenyFormat: FloatingPointFormatStyle<Double>.Currency {
+        let code = Locale.current.currencyCode ?? "GBP"
+        return .init(code: code)
     }
 }
 
