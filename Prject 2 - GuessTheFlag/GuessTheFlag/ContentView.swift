@@ -11,6 +11,7 @@ struct ContentView: View {
 
     @State private var showingScore = false
     @State private var scoreTitle = ""
+    @State private var scoreMessage = ""
 
     @State var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
 
@@ -18,42 +19,75 @@ struct ContentView: View {
 
     @State var currentScore = 0
 
+    @State var questionCount = 0
+
     var body: some View {
         ZStack {
-            LinearGradient(
-                gradient: .init(colors: [.blue, .black]),
-                startPoint: .top,
-                endPoint: .bottom
+            RadialGradient(
+                stops: [
+                    .init(color: Color(red: 0.1, green: 0.2, blue: 0.45), location: 0.3),
+                    .init(color: Color(red: 0.76, green: 0.15, blue: 0.26), location: 0.3)
+                ],
+                center: .top,
+                startRadius: 200,
+                endRadius: 700
             )
                 .ignoresSafeArea()
 
+            VStack {
 
-            VStack(spacing: 30) {
-                VStack {
-                    Text("Tap the flag of")
-                        .foregroundColor(.white)
-                        .font(.subheadline.weight(.heavy))
+                Spacer()
 
-                    Text(countries[correctAnswer])
-                        .foregroundColor(.white)
-                        .font(.largeTitle.weight(.semibold))
-                }
+                Text("Guess the Flag")
+                    .font(.largeTitle.bold())
+                    .foregroundColor(.white)
 
-                ForEach(0..<3) { index in
-                    Button {
-                        flagTapped(index)
+                VStack(spacing: 15) {
+                    VStack {
+                        Text("Tap the flag of")
+                            .foregroundStyle(.secondary)
+                            .font(.subheadline.weight(.heavy))
 
-                    } label: {
-                        Image(countries[index])
-                            .renderingMode(.original)
+                        Text(countries[correctAnswer])
+                            .font(.largeTitle.weight(.semibold))
+                    }
+
+                    ForEach(0..<3) { index in
+                        Button {
+                            flagTapped(index)
+
+                        } label: {
+                            Image(countries[index])
+                                .renderingMode(.original)
+                                .clipShape(Capsule())
+                                .shadow(radius: 5)
+                        }
                     }
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .background(.ultraThinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+
+                Spacer()
+                Spacer()
+
+                Text("Score: \(currentScore)")
+                    .foregroundColor(.white)
+                    .font(.title.bold())
+
+                Spacer()
             }
+            .padding()
         }
         .alert(scoreTitle, isPresented: $showingScore) {
-            Button("Continue", action: askQuestion)
+            if shouldEndGame {
+                Button( "New Game", action: restartGame)
+            } else {
+                Button( "Continue", action: askQuestion)
+            }
         } message: {
-            Text("Your score value is \(currentScore)")
+            Text(scoreMessage)
         }
     }
 
@@ -62,14 +96,33 @@ struct ContentView: View {
             scoreTitle = "Correct"
             currentScore += 1
         } else {
-            scoreTitle = "Wrong"
+            scoreTitle = "Wrong this is the flag of \(countries[index])"
         }
+
+        questionCount += 1
+        scoreMessage = "Your score value is \(currentScore)"
+
+        if shouldEndGame {
+            scoreTitle = "Game Over"
+            scoreMessage = "Well done, your final score is \(currentScore)"
+        }
+
         showingScore = true
+    }
+
+    var shouldEndGame: Bool {
+        questionCount >= 7
     }
 
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+    }
+
+    func restartGame() {
+        askQuestion()
+        questionCount = 0
+        currentScore = 0
     }
 }
 
