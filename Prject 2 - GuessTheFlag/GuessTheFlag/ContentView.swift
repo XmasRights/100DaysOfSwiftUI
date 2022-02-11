@@ -8,21 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    @State private var showingAlert = false
+
     var body: some View {
-        VStack {
-            Button("Button 1") {}
-            .buttonStyle(.bordered)
-
-            Button("Button 2", role: .destructive) {}
-            .buttonStyle(.bordered)
-
-            Button("Button 3") {}
-            .buttonStyle(.borderedProminent)
-
-            Button("Button 4", role: .destructive) {}
-            .buttonStyle(.borderedProminent)
-
-            Button("Button 5") {}
+        Button("Show Alert") {
+            showingAlert = true
+        }
+        .alert("Important Message", isPresented: $showingAlert) {
+            Button("Nah") {}
+            Button("Nah Yeah", role: .cancel) {}
+            Button("Yeah Nah", role: .destructive) {}
+            Button("Yeah") {}
+        } message: {
+            Text("Please read this")
         }
     }
 }
