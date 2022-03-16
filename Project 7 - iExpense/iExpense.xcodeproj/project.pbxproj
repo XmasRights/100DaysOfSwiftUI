@@ -13,6 +13,7 @@
 		4B17560327E20205006A9759 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B17560227E20205006A9759 /* Preview Assets.xcassets */; };
 		4B5F0AA727E2027200E904A5 /* ExpenseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5F0AA627E2027200E904A5 /* ExpenseItem.swift */; };
 		4B5F0AA927E202AC00E904A5 /* Expenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5F0AA827E202AC00E904A5 /* Expenses.swift */; };
+		4B5F0AAB27E218CB00E904A5 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5F0AAA27E218CB00E904A5 /* AddView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		4B17560227E20205006A9759 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4B5F0AA627E2027200E904A5 /* ExpenseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseItem.swift; sourceTree = "<group>"; };
 		4B5F0AA827E202AC00E904A5 /* Expenses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expenses.swift; sourceTree = "<group>"; };
+		4B5F0AAA27E218CB00E904A5 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				4B1755FF27E20205006A9759 /* Assets.xcassets */,
 				4B17560127E20205006A9759 /* Preview Content */,
 				4B5F0AA827E202AC00E904A5 /* Expenses.swift */,
+				4B5F0AAA27E218CB00E904A5 /* AddView.swift */,
 			);
 			path = iExpense;
 			sourceTree = "<group>";
@@ -145,6 +148,7 @@
 			files = (
 				4B5F0AA927E202AC00E904A5 /* Expenses.swift in Sources */,
 				4B1755FE27E20203006A9759 /* ContentView.swift in Sources */,
+				4B5F0AAB27E218CB00E904A5 /* AddView.swift in Sources */,
 				4B5F0AA727E2027200E904A5 /* ExpenseItem.swift in Sources */,
 				4B1755FC27E20203006A9759 /* iExpenseApp.swift in Sources */,
 			);
