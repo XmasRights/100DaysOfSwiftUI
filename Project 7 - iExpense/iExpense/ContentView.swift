@@ -12,26 +12,46 @@ struct ContentView: View {
 
     @State private var showingAddExpense = false
 
+    func cell(item: ExpenseItem) -> some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(item.name)
+
+                Text(item.type)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            Spacer()
+
+            Text(
+                item.amount,
+                format: .currency(code: item.currency.rawValue)
+            )
+                .intensityColour(value: item.amount)
+        }
+    }
+
     var body: some View {
         NavigationView {
             List {
-                ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-
-                            Text(item.type)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+                Section("Personal") {
+                    ForEach(expenses.items) { item in
+                        if item.type == "Personal" {
+                            cell(item: item)
                         }
-
-                        Spacer()
-                        Text(item.amount, format: .currency(code: item.currency.rawValue))
-                            .foregroundColor(.secondary)
                     }
-
+                    .onDelete(perform: remove)
                 }
-                .onDelete(perform: remove)
+
+                Section("Business") {
+                    ForEach(expenses.items) { item in
+                        if item.type == "Business" {
+                            cell(item: item)
+                        }
+                    }
+                    .onDelete(perform: remove)
+                }
             }
             .navigationTitle("iExpense")
             .toolbar {
@@ -50,6 +70,16 @@ struct ContentView: View {
     func remove(items offsets: IndexSet) {
         expenses.items.remove(atOffsets: offsets)
     }
+}
+
+private extension View {
+
+    func intensityColour(value: Double) -> some View {
+        self.foregroundColor(value >= 100 ? .red
+                             : value >= 10 ? .yellow
+                             : .green)
+    }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
