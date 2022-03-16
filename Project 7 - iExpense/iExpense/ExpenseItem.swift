@@ -12,14 +12,16 @@ struct ExpenseItem: Identifiable, Codable {
     let name: String
     let type: String
     let amount: Double
+    let currency: Currency
 }
 
 extension ExpenseItem {
 
-    init(name: String, type: String, amount: Double) {
+    init(name: String, type: String, amount: Double, currency: Currency) {
         self.id = UUID()
         self.name = name
         self.type = type
         self.amount = amount
+        self.currency = currency
     }
 }

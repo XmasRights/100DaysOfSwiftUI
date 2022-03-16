@@ -16,6 +16,7 @@ struct AddView: View {
     @State private var name = ""
     @State private var type = "Personal"
     @State private var amount = 0.0
+    @State private var currency = Currency.poundSterling
 
     let types = ["Business", "Personal"]
 
@@ -30,7 +31,18 @@ struct AddView: View {
                     }
                 }
 
-                TextField("Amount", value: $amount, format: .currency(code: "USD"))
+                TextField(
+                    "Amount",
+                    value: $amount,
+                    format: .number
+                )
+
+                Picker("Currency", selection: $currency) {
+                    ForEach(Currency.allCases, id: \.rawValue) {
+                        Text($0.symbol).tag($0)
+                    }
+                }
+                .pickerStyle(.segmented)
             }
             .navigationTitle("Add new expense")
             .toolbar {
@@ -38,7 +50,8 @@ struct AddView: View {
                     let item = ExpenseItem(
                         name: name,
                         type: type,
-                        amount: amount
+                        amount: amount,
+                        currency: currency
                     )
                     expenses.items.append(item)
 
